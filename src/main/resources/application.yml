@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: wdw-server.cwas4ywuxhjs.ap-northeast-2.rds.amazonaws.com:3306/wdw?serverTimezone=Asia/Seoul
+    url: jdbc:mysql://wdw-server.cwas4ywuxhjs.ap-northeast-2.rds.amazonaws.com/wdw
     username: master
     password: wdw1234!
 

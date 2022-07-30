@@ -4,10 +4,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,13 +16,14 @@ import java.util.List;
 public class User {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_seq")
     private Long id;
     private String username;
     private String password;
-    private String name;
     private String email;
+    private String name;
+    private Integer weight;
     private String roles; // USER, ADMIN
     private String provider;
     private String providerId;
@@ -40,12 +38,13 @@ public class User {
     }
 
     @Builder
-    public User(Long id, String username, String password, String name, String email, String roles, String provider, String providerId, Timestamp createDate) {
+    public User(Long id, String username, String password, String email, String name, Integer weight, String roles, String provider, String providerId, Timestamp createDate) {
         this.id = id;
         this.username = username;
         this.password = password;
-        this.name = name;
         this.email = email;
+        this.name = name;
+        this.weight = weight;
         this.roles = roles;
         this.provider = provider;
         this.providerId = providerId;
