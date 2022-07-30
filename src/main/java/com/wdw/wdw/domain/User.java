@@ -36,7 +36,6 @@ public class User {
         }
         return new ArrayList<>();
     }
-
     @Builder
     public User(Long id, String username, String password, String email, String name, Integer weight, String roles, String provider, String providerId, Timestamp createDate) {
         this.id = id;
