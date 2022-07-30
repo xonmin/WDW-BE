@@ -20,4 +20,6 @@ public class Log {
 
     private LocalDateTime date;
     private int quantity;
+
+    //github bot testing
 }
