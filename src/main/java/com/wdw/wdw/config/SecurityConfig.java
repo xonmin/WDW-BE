@@ -4,6 +4,7 @@ import com.wdw.wdw.config.jwt.JwtAuthenticationFilter;
 import com.wdw.wdw.config.jwt.JwtAuthorizationFilter;
 import com.wdw.wdw.config.jwt.JwtTokenProvider;
 import com.wdw.wdw.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,15 +17,12 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
-    @Autowired
-    CorsConfig corsConfig;
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    private AppProperties appProperties;
-    @Autowired
-    private JwtTokenProvider tokenProvider;
+    private final CorsConfig corsConfig;
+    private final UserRepository userRepository;
+    private final AppProperties appProperties;
+    private final JwtTokenProvider tokenProvider;
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
