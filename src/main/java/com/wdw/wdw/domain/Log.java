@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 public class Log {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "log_seq")
     private Long id;
 
@@ -20,6 +20,4 @@ public class Log {
 
     private LocalDateTime date;
     private int quantity;
-
-    //github bot testing
 }
