@@ -8,11 +8,11 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter @Setter
-public class Log {
+public class Record {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "log_seq")
+    @Column(name = "record_seq")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
