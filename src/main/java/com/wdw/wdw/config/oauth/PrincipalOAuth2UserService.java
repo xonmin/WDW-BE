@@ -3,7 +3,9 @@ package com.wdw.wdw.config.oauth;
 import com.wdw.wdw.config.auth.PrincipalDetails;
 import com.wdw.wdw.config.oauth.provider.GoogleUserInfo;
 import com.wdw.wdw.config.oauth.provider.OAuth2UserInfo;
+import com.wdw.wdw.config.oauth.provider.UserInfoFactoryImpl;
 import com.wdw.wdw.domain.User;
+import com.wdw.wdw.exception.InvalidProviderType;
 import com.wdw.wdw.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -16,16 +18,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
     private UserRepository userRepository;
+    private UserInfoFactoryImpl userInfoFactory;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(userRequest);
+
         OAuth2UserInfo oAuth2UserInfo = null;
-        if (userRequest.getClientRegistration().getRegistrationId().equals("google")) {
-            oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
-        } else {
-            //지원하지 않는 형식
-            return null;
+        try {
+            oAuth2UserInfo = userInfoFactory.makeUserInfo(userRequest, oAuth2User.getAttributes());
+        } catch (InvalidProviderType e) {
+            e.printStackTrace();
         }
 
         String provider = oAuth2UserInfo.getProvider();
@@ -47,4 +50,5 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
         }
         return new PrincipalDetails(user, oAuth2User.getAttributes());
     }
+
 }
