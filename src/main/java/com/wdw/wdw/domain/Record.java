@@ -23,12 +23,12 @@ public class Record {
     private User user;
 
     @Embedded
-    private Date date;
+    private RecordDate recordDate;
     private int quantity;
 
     public Record(int quantity) {
         this.quantity = quantity;
-        this.date = new Date(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth(), LocalDateTime.now());
+        this.recordDate = new RecordDate(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth(), LocalDateTime.now());
     }
 
     public void setUser(User user) {
