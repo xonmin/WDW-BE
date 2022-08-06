@@ -28,6 +28,8 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
         try {
             oAuth2UserInfo = userInfoFactory.makeUserInfo(userRequest, oAuth2User.getAttributes());
         } catch (InvalidProviderType e) {
+            String message = e.getMessage();
+            System.out.println(message);
             e.printStackTrace();
         }
 

@@ -13,7 +13,7 @@ public class UserInfoFactoryImpl implements UserInfoFactory{
             case "google":
                 return new GoogleUserInfo(attributes);
             default:
-                throw new InvalidProviderType();
+                throw new InvalidProviderType("지원하지 않는 소셜 로그인 입니다.");
         }
     }
 }
