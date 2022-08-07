@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -16,7 +18,7 @@ public class RecordService {
     private final RecordRepository recordRepository;
 
     @Transactional
-    public Long addLog(Record record) {
+    public Long addRecord(Record record) {
         //validation 필요한가
         recordRepository.save(record);
         return record.getId();
@@ -24,5 +26,17 @@ public class RecordService {
 
     public List<Record> findLogsByUsername(String name) {
         return recordRepository.findAll(name);
+    }
+
+    public List<Record> findRecordByDay(LocalDateTime datetime) {
+        return recordRepository.findRecordsByDay(datetime);
+    }
+
+    public List<Record> findRecordByWeek(LocalDateTime dateTime) {
+        return recordRepository.findRecordsByWeek(dateTime);
+    }
+
+    public List<Record> findRecordByMonth(LocalDateTime dateTime) {
+        return recordRepository.findRecordsByMonth(dateTime);
     }
 }
