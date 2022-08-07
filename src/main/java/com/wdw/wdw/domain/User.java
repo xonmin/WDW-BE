@@ -31,8 +31,6 @@ public class User {
     @CreationTimestamp
     private Timestamp createDate;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-    private List<Record> records = new ArrayList<>();
 
     public List<String> getRoleList() {
         if (this.roles.length() > 0) {

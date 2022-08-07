@@ -1,16 +1,12 @@
 package com.wdw.wdw.domain;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
-@Getter @Setter
-@NoArgsConstructor
+@Data
 public class Record {
 
     @Id
@@ -26,13 +22,16 @@ public class Record {
     private RecordDate recordDate;
     private int quantity;
 
+    public Record() {
+        this.recordDate = new RecordDate(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth());
+    }
+
     public Record(int quantity) {
         this.quantity = quantity;
-        this.recordDate = new RecordDate(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth(), LocalDateTime.now());
+        this.recordDate = new RecordDate(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth());
     }
 
     public void setUser(User user) {
         this.user = user;
-        user.getRecords().add(this);
     }
 }
