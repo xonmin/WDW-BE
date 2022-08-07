@@ -1,13 +1,12 @@
 package com.wdw.wdw.controller;
 
+import com.wdw.wdw.config.auth.PrincipalDetails;
 import com.wdw.wdw.domain.User;
 import com.wdw.wdw.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -18,10 +17,18 @@ public class UserController {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @PostMapping("/join")
-    String join(@RequestBody User user){
+    User join(@RequestBody User user){
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setRoles("ROLE_USER");
         userRepository.save(user);
-        return "회원가입 완료";
+        return user;
     }
+    @PostMapping("/user/test")
+    User test(Authentication authentication){
+        PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
+        System.out.println("principal.getUser() = " + principal.getUser());
+        System.out.println("로그인 정보");
+        return principal.getUser();
+    }
+
 }
