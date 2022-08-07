@@ -48,14 +48,17 @@ public class RecordController {
     }
 
     @PostMapping(value = "/record/add")
-    public String addRecord(@RequestBody int quantity, Authentication authentication) {
-        Record newRecord = new Record(quantity);
+    public String addRecord(@RequestBody Record record, Authentication authentication) {
+        try {
+            PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
+            User findUser = principal.getUser();
+            System.out.println("findUser = " + findUser.getUsername());
+            record.setUser(findUser);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
-        User findUser = principal.getUser();
-        newRecord.setUser(findUser);
-
-        recordService.addRecord(newRecord);
+        recordService.addRecord(record);
 
         return "기록 저장 완료";
     }
