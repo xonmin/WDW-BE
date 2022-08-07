@@ -49,7 +49,7 @@ public class SecurityConfig {
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
             builder
                     .addFilter(corsConfig.corsFilter())
-                    .addFilter(new JwtAuthenticationFilter(authenticationManager))
+                    .addFilter(new JwtAuthenticationFilter(authenticationManager, tokenProvider))
                     .addFilter(new JwtAuthorizationFilter(authenticationManager, userRepository, appProperties, tokenProvider));
         }
     }
