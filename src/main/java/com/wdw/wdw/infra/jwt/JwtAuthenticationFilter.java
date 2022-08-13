@@ -1,10 +1,8 @@
-package com.wdw.wdw.config.jwt;
+package com.wdw.wdw.infra.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.wdw.wdw.config.auth.PrincipalDetails;
 import com.wdw.wdw.domain.User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

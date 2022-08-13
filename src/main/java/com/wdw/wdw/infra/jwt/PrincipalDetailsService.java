@@ -1,4 +1,4 @@
-package com.wdw.wdw.config.auth;
+package com.wdw.wdw.infra.jwt;
 
 import com.wdw.wdw.domain.User;
 import com.wdw.wdw.repository.UserRepository;

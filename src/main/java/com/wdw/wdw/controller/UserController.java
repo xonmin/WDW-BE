@@ -1,6 +1,6 @@
 package com.wdw.wdw.controller;
 
-import com.wdw.wdw.config.auth.PrincipalDetails;
+import com.wdw.wdw.infra.jwt.PrincipalDetails;
 import com.wdw.wdw.domain.User;
 import com.wdw.wdw.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

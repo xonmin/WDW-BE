@@ -1,4 +1,4 @@
-package com.wdw.wdw.config.oauth.provider;
+package com.wdw.wdw.infra.oauth.provider;
 
 import com.wdw.wdw.exception.InvalidProviderType;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;

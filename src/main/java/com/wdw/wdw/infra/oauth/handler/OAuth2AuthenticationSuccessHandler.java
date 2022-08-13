@@ -1,6 +1,6 @@
-package com.wdw.wdw.config.oauth.handler;
+package com.wdw.wdw.infra.oauth.handler;
 
-import com.wdw.wdw.config.jwt.JwtTokenProvider;
+import com.wdw.wdw.infra.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;

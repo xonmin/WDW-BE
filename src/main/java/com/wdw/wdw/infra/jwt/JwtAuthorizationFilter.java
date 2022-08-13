@@ -1,7 +1,6 @@
-package com.wdw.wdw.config.jwt;
+package com.wdw.wdw.infra.jwt;
 
-import com.wdw.wdw.config.AppProperties;
-import com.wdw.wdw.config.auth.PrincipalDetails;
+import com.wdw.wdw.infra.config.AppProperties;
 import com.wdw.wdw.domain.User;
 import com.wdw.wdw.repository.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;

@@ -1,4 +1,4 @@
-package com.wdw.wdw.config;
+package com.wdw.wdw.infra.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
