@@ -1,11 +1,9 @@
-package com.wdw.wdw.config.jwt;
+package com.wdw.wdw.infra.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.wdw.wdw.config.AppProperties;
-import com.wdw.wdw.config.auth.PrincipalDetails;
-import lombok.Data;
+import com.wdw.wdw.infra.config.AppProperties;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 

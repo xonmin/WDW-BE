@@ -1,6 +1,6 @@
 package com.wdw.wdw;
 
-import com.wdw.wdw.config.AppProperties;
+import com.wdw.wdw.infra.config.AppProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

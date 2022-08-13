@@ -1,13 +1,12 @@
 package com.wdw.wdw.controller;
 
-import com.wdw.wdw.config.auth.PrincipalDetails;
-import com.wdw.wdw.config.jwt.JwtTokenProvider;
+import com.wdw.wdw.infra.jwt.PrincipalDetails;
+import com.wdw.wdw.infra.jwt.JwtTokenProvider;
 import com.wdw.wdw.domain.Record;
 import com.wdw.wdw.domain.User;
 import com.wdw.wdw.repository.UserRepository;
 import com.wdw.wdw.service.RecordService;
 import lombok.RequiredArgsConstructor;
-import net.bytebuddy.asm.Advice;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
