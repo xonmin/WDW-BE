@@ -1,4 +1,4 @@
-package com.wdw.wdw.config.oauth.provider;
+package com.wdw.wdw.infra.oauth.provider;
 
 import java.util.Map;
 

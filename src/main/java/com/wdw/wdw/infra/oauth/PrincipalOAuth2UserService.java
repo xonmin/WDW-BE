@@ -1,9 +1,8 @@
-package com.wdw.wdw.config.oauth;
+package com.wdw.wdw.infra.oauth;
 
-import com.wdw.wdw.config.auth.PrincipalDetails;
-import com.wdw.wdw.config.oauth.provider.GoogleUserInfo;
-import com.wdw.wdw.config.oauth.provider.OAuth2UserInfo;
-import com.wdw.wdw.config.oauth.provider.UserInfoFactoryImpl;
+import com.wdw.wdw.infra.jwt.PrincipalDetails;
+import com.wdw.wdw.infra.oauth.provider.OAuth2UserInfo;
+import com.wdw.wdw.infra.oauth.provider.UserInfoFactoryImpl;
 import com.wdw.wdw.domain.User;
 import com.wdw.wdw.exception.InvalidProviderType;
 import com.wdw.wdw.repository.UserRepository;
@@ -33,27 +32,24 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
             e.printStackTrace();
         }
 
-        String username = oAuth2UserInfo.getProvider() + "_" + oAuth2UserInfo.getProviderId();
-
-        User user = userRepository.findByUsername(username)
-                .orElse(createUser(oAuth2UserInfo));
-        return new PrincipalDetails(user, oAuth2User.getAttributes());
-    }
-
-    User createUser(OAuth2UserInfo oAuth2UserInfo) {
         String provider = oAuth2UserInfo.getProvider();
         String providerId = oAuth2UserInfo.getProviderId();
         String username = provider + "_" + providerId;
         String email = oAuth2UserInfo.getEmail();
-        String name = oAuth2UserInfo.getName();
-        User user = User.builder()
-                .username(username)
-                .provider(provider)
-                .providerId(providerId)
-                .email(email)
-                .name(name)
-                .build();
-        return userRepository.save(user);
+        String roles = "ROLE_USER";
+
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            user = User.builder()
+                    .username(username)
+                    .email(email)
+                    .roles(roles)
+                    .provider(provider)
+                    .providerId(providerId)
+                    .build();
+            userRepository.save(user);
+        }
+        return new PrincipalDetails(user, oAuth2User.getAttributes());
     }
 
 }
