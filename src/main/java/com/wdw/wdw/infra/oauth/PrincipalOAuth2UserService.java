@@ -1,9 +1,9 @@
-package com.wdw.wdw.config.oauth;
+package com.wdw.wdw.infra.oauth;
 
-import com.wdw.wdw.config.auth.PrincipalDetails;
-import com.wdw.wdw.config.oauth.provider.GoogleUserInfo;
-import com.wdw.wdw.config.oauth.provider.OAuth2UserInfo;
-import com.wdw.wdw.config.oauth.provider.UserInfoFactoryImpl;
+
+import com.wdw.wdw.infra.jwt.PrincipalDetails;
+import com.wdw.wdw.infra.oauth.provider.OAuth2UserInfo;
+import com.wdw.wdw.infra.oauth.provider.UserInfoFactoryImpl;
 import com.wdw.wdw.domain.User;
 import com.wdw.wdw.exception.InvalidProviderType;
 import com.wdw.wdw.repository.UserRepository;

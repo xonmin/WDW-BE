@@ -1,11 +1,10 @@
-package com.wdw.wdw.config;
+package com.wdw.wdw.infra.config;
 
-import com.wdw.wdw.config.jwt.JwtAuthenticationFilter;
-import com.wdw.wdw.config.jwt.JwtAuthorizationFilter;
-import com.wdw.wdw.config.jwt.JwtTokenProvider;
+import com.wdw.wdw.infra.jwt.JwtAuthenticationFilter;
+import com.wdw.wdw.infra.jwt.JwtAuthorizationFilter;
+import com.wdw.wdw.infra.jwt.JwtTokenProvider;
 import com.wdw.wdw.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
