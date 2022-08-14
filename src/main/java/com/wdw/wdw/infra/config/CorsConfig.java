@@ -1,4 +1,4 @@
-package com.wdw.wdw.config;
+package com.wdw.wdw.infra.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

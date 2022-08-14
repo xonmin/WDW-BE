@@ -1,6 +1,10 @@
 package com.wdw.wdw.controller;
 
+<<<<<<< HEAD
 import com.wdw.wdw.config.auth.PrincipalDetails;
+=======
+import com.wdw.wdw.infra.jwt.PrincipalDetails;
+>>>>>>> abe1c0b7569f3363691460d98f44b6d2a87d3a54
 import com.wdw.wdw.domain.User;
 import com.wdw.wdw.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
