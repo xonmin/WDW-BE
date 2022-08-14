@@ -5,6 +5,7 @@ import com.wdw.wdw.infra.jwt.PrincipalDetails;
 import com.wdw.wdw.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +24,13 @@ public class UserController {
         userRepository.save(user);
         return user;
     }
+
+    @PutMapping
+    User update(@AuthenticationPrincipal PrincipalDetails details, @RequestBody User user) {
+
+        return user;
+    }
+
     @PostMapping("/user/test")
     User test(Authentication authentication){
         PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();

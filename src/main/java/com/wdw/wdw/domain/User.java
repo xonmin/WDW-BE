@@ -11,8 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Entity
-@Data
-//@Getter
+@Getter
 @NoArgsConstructor
 public class User {
 
@@ -31,6 +30,13 @@ public class User {
     @CreationTimestamp
     private Timestamp createDate;
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setRoles(String roles) {
+        this.roles = roles;
+    }
 
     public List<String> getRoleList() {
         if (this.roles.length() > 0) {
