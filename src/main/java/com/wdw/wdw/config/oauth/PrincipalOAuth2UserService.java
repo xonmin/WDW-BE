@@ -33,24 +33,27 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
             e.printStackTrace();
         }
 
+        String username = oAuth2UserInfo.getProvider() + "_" + oAuth2UserInfo.getProviderId();
+
+        User user = userRepository.findByUsername(username)
+                .orElse(createUser(oAuth2UserInfo));
+        return new PrincipalDetails(user, oAuth2User.getAttributes());
+    }
+
+    User createUser(OAuth2UserInfo oAuth2UserInfo) {
         String provider = oAuth2UserInfo.getProvider();
         String providerId = oAuth2UserInfo.getProviderId();
         String username = provider + "_" + providerId;
         String email = oAuth2UserInfo.getEmail();
-        String roles = "ROLE_USER";
-
-        User user = userRepository.findByUsername(username);
-        if (user == null) {
-            user = User.builder()
-                    .username(username)
-                    .email(email)
-                    .roles(roles)
-                    .provider(provider)
-                    .providerId(providerId)
-                    .build();
-            userRepository.save(user);
-        }
-        return new PrincipalDetails(user, oAuth2User.getAttributes());
+        String name = oAuth2UserInfo.getName();
+        User user = User.builder()
+                .username(username)
+                .provider(provider)
+                .providerId(providerId)
+                .email(email)
+                .name(name)
+                .build();
+        return userRepository.save(user);
     }
 
 }
