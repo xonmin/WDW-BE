@@ -8,12 +8,14 @@ import com.wdw.wdw.domain.User;
 import com.wdw.wdw.exception.InvalidProviderType;
 import com.wdw.wdw.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
@@ -41,6 +43,7 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     User createUser(OAuth2UserInfo oAuth2UserInfo) {
+        log.info("소셜 회원가입 진행");
         String provider = oAuth2UserInfo.getProvider();
         String providerId = oAuth2UserInfo.getProviderId();
         String username = provider + "_" + providerId;

@@ -3,6 +3,7 @@ package com.wdw.wdw.infra.jwt;
 import com.wdw.wdw.infra.config.AppProperties;
 import com.wdw.wdw.domain.User;
 import com.wdw.wdw.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@Slf4j
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     private final UserRepository userRepository;
     private final AppProperties appProperties;
@@ -30,7 +32,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     //인증이나 권한이 필요한 주소요청이 있을 때 해당 필터를 타게됨
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        System.out.println("인증이나 권한이 필요한 주고 요청이 됨");
+        log.info("인증이나 권한이 필요한 주고 요청이 됨");
         String jwtHeader = request.getHeader("Authorization");
 
         if (jwtHeader == null || !jwtHeader.startsWith("Bearer")) {
