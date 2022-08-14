@@ -3,6 +3,10 @@ package com.wdw.wdw.infra.jwt;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wdw.wdw.domain.User;
 import lombok.RequiredArgsConstructor;
+<<<<<<< HEAD:src/main/java/com/wdw/wdw/infra/jwt/JwtAuthenticationFilter.java
+import lombok.extern.slf4j.Slf4j;
+=======
+>>>>>>> 6e31e2cf61d92c40f0bcc04b9e4e64da41f21bdd:src/main/java/com/wdw/wdw/config/jwt/JwtAuthenticationFilter.java
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -14,6 +18,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
+@Slf4j
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
@@ -23,7 +29,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException {
-        System.out.println("JwtAuthenticationFilter 실행중");
 
         try {
 
@@ -38,7 +43,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                     authenticationManager.authenticate(authenticationToken);
 
             PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-            System.out.println("로그인 완료됨" + principalDetails.getUser().getUsername()); // 로그인이 되었다.
+            log.info("로그인 완료됨" + principalDetails.getUser().getUsername()); // 로그인이 되었다.
 
             return authentication;
         } catch (IOException e) {
@@ -51,7 +56,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
                                             FilterChain chain, Authentication authResult)
             throws IOException, ServletException {
-        System.out.println("successfulAuthentication 실행됨: 인증이 완료되었다");
+        log.info("successfulAuthentication 실행됨: 인증이 완료되었다");
         String jwtToken = tokenProvider.createToken(authResult);
 
         response.addHeader("Authorization", "Bearer " + jwtToken);
