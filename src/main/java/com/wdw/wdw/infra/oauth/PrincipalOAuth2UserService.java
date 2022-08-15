@@ -41,7 +41,7 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
         return new PrincipalDetails(user, oAuth2User.getAttributes());
     }
 
-    User createUser(OAuth2UserInfo oAuth2UserInfo) {
+    private User createUser(OAuth2UserInfo oAuth2UserInfo) {
         log.info("소셜 회원가입 진행");
 
         String provider = oAuth2UserInfo.getProvider();

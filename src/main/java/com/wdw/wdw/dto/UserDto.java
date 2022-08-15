@@ -14,8 +14,11 @@ public class UserDto {
     @AllArgsConstructor
     public static class JoinReq{
         private String username;
+
         private String password;
+
         private String email;
+
         private String name;
 
         public User toEntity(){
@@ -30,19 +33,15 @@ public class UserDto {
 
     @Getter @Builder
     @AllArgsConstructor
-    public static class LoginReq {
-        private String username;
-        private String password;
-    }
-
-    @Getter @Builder
-    @AllArgsConstructor
     public static class UpdateReq {
+
         private String password;
+
         private String email;
+
         private String name;
+
         private Integer weight;
     }
-
 
 }
