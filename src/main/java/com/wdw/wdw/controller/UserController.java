@@ -1,37 +1,38 @@
 package com.wdw.wdw.controller;
 
 
+import com.wdw.wdw.dto.UserDto;
 import com.wdw.wdw.infra.jwt.PrincipalDetails;
-
 import com.wdw.wdw.domain.User;
-import com.wdw.wdw.infra.jwt.PrincipalDetails;
-import com.wdw.wdw.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.wdw.wdw.service.UserService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/v1")
+@RequiredArgsConstructor
 public class UserController {
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    private final UserService userService;
 
     @PostMapping("/join")
-    User join(@RequestBody User user){
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setRoles("ROLE_USER");
-        userRepository.save(user);
-        return user;
+    User join(@RequestBody UserDto.JoinReq req){
+        log.info("회원가입");
+        return userService.signUp(req);
     }
 
-    @PutMapping
-    User update(@AuthenticationPrincipal PrincipalDetails details, @RequestBody User user) {
+    @PutMapping("/user/update")
+    User update(@AuthenticationPrincipal PrincipalDetails details, @RequestBody UserDto.UpdateReq req) {
+        return userService.update(details.getUsername(), req);
+    }
 
-        return user;
+    @GetMapping("/user")
+    User user(@AuthenticationPrincipal PrincipalDetails details) {
+        return details.getUser();
     }
 
     @PostMapping("/user/test")

@@ -12,7 +12,7 @@ import java.util.Date;
 @Service
 public class JwtTokenProvider {
 
-    private AppProperties appProperties;
+    private final AppProperties appProperties;
 
     public JwtTokenProvider(AppProperties appProperties) {
         this.appProperties = appProperties;

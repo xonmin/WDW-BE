@@ -34,7 +34,6 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         log.info("인증이나 권한이 필요한 주고 요청이 됨");
         String jwtHeader = request.getHeader("Authorization");
-
         if (jwtHeader == null || !jwtHeader.startsWith("Bearer")) {
             chain.doFilter(request, response);
             return;
@@ -44,12 +43,8 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         String username = tokenProvider.getUsernameFromToken(jwtToken);
 
         if (username != null) {
-<<<<<<< HEAD:src/main/java/com/wdw/wdw/infra/jwt/JwtAuthorizationFilter.java
             User user = userRepository.findByUsername(username)
                     .orElse(null);
-=======
-            User user = userRepository.findByUsername(username);
->>>>>>> 6e31e2cf61d92c40f0bcc04b9e4e64da41f21bdd:src/main/java/com/wdw/wdw/config/jwt/JwtAuthorizationFilter.java
 
             PrincipalDetails principalDetails = new PrincipalDetails(user);
             Authentication authentication =
