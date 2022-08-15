@@ -3,10 +3,7 @@ package com.wdw.wdw.infra.jwt;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wdw.wdw.domain.User;
 import lombok.RequiredArgsConstructor;
-<<<<<<< HEAD:src/main/java/com/wdw/wdw/infra/jwt/JwtAuthenticationFilter.java
 import lombok.extern.slf4j.Slf4j;
-=======
->>>>>>> 6e31e2cf61d92c40f0bcc04b9e4e64da41f21bdd:src/main/java/com/wdw/wdw/config/jwt/JwtAuthenticationFilter.java
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

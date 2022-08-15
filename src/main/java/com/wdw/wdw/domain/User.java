@@ -1,5 +1,6 @@
 package com.wdw.wdw.domain;
 
+import com.wdw.wdw.dto.UserDto.UpdateReq;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.stereotype.Service;
@@ -56,6 +57,13 @@ public class User {
         this.provider = provider;
         this.providerId = providerId;
         this.createDate = createDate;
+    }
+
+    public void userUpdate(UpdateReq req){
+        this.password = req.getPassword();
+        this.email = req.getEmail();
+        this.name = req.getName();
+        this.weight = req.getWeight();
     }
 
 }
