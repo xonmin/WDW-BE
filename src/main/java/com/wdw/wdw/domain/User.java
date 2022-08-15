@@ -20,14 +20,23 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_seq")
     private Long id;
+
     private String username;
+
     private String password;
+
     private String email;
+
     private String name;
+
     private Integer weight;
+
     private String roles; // USER, ADMIN
+
     private String provider;
+
     private String providerId;
+
     @CreationTimestamp
     private Timestamp createDate;
 
