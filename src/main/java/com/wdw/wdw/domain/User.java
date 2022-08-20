@@ -37,6 +37,9 @@ public class User {
 
     private String providerId;
 
+    @OneToMany(mappedBy = "user")
+    private List<Achievement> achievements = new ArrayList<>();
+
     @CreationTimestamp
     private Timestamp createDate;
 
