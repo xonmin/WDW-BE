@@ -37,18 +37,15 @@ public class User {
 
     private String providerId;
 
+    private Integer consecutiveDays;
     @OneToMany(mappedBy = "user")
     private List<Achievement> achievements = new ArrayList<>();
 
     @CreationTimestamp
     private Timestamp createDate;
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setRoles(String roles) {
-        this.roles = roles;
+    public void setConsecutiveDays(Integer consecutiveDays) {
+        this.consecutiveDays = consecutiveDays;
     }
 
     public List<String> getRoleList() {
@@ -58,7 +55,7 @@ public class User {
         return new ArrayList<>();
     }
     @Builder
-    public User(Long id, String username, String password, String email, String name, Integer weight, String roles, String provider, String providerId, Timestamp createDate) {
+    public User(Long id, String username, String password, String email, String name, Integer weight, String roles, String provider, String providerId, Timestamp createDate, Integer consecutiveDays) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -69,6 +66,7 @@ public class User {
         this.provider = provider;
         this.providerId = providerId;
         this.createDate = createDate;
+        this.consecutiveDays = consecutiveDays;
     }
 
     public void userUpdate(UpdateReq req){
