@@ -6,14 +6,19 @@ import com.wdw.wdw.dto.UserDto.UpdateReq;
 import com.wdw.wdw.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 
-@Slf4j
+@Slf4j @EnableAsync
 @RequiredArgsConstructor
-@Service
+@Service @EnableScheduling
 public class UserService {
 
     private final BCryptPasswordEncoder passwordEncoder;
@@ -40,4 +45,17 @@ public class UserService {
         userRepository.save(user);
         return user;
     }
+
+    @Async @Scheduled(cron = "0 5 0 * * *")
+    public void updateConsecutiveDays() {
+        List<User> userList = userRepository.findAll();
+        userList.parallelStream()
+                .filter(this::isEnoughYesterday)
+                .forEach(user -> user.setConsecutiveDays(0));
+    }
+
+    private boolean isEnoughYesterday(User user){
+        return true;
+    }
+
 }
