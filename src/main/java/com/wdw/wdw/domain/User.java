@@ -38,6 +38,8 @@ public class User {
     private String providerId;
 
     private Integer consecutiveDays;
+    @OneToMany(mappedBy = "user")
+    private List<Achievement> achievements = new ArrayList<>();
 
     @CreationTimestamp
     private Timestamp createDate;
