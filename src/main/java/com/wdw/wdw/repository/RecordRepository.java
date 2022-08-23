@@ -34,12 +34,13 @@ public class RecordRepository {
                 .getResultList();
     }
 
-    public List<Record> findRecordsByDay(LocalDateTime date) {
+    public List<Record> findRecordsByDay(LocalDateTime date, Long userId) {
         //오늘을 기준으로 조회하는 경우면 날짜로만 처리해야한다.
-        return em.createQuery("select r from Record r where r.recordDate.year = :year and r.recordDate.month = :month and r.recordDate.day = :day order by r.recordDate.time", Record.class)
+        return em.createQuery("select r from Record r where r.recordDate.year = :year and r.recordDate.month = :month and r.recordDate.day = :day and r.user.id = :userId order by r.recordDate.time", Record.class)
                 .setParameter("year", date.getYear())
                 .setParameter("month", date.getMonthValue())
                 .setParameter("day", date.getDayOfMonth())
+                .setParameter("userId", userId)
                 .getResultList();
     }
 
