@@ -9,7 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.List;
 
@@ -45,37 +45,38 @@ public class RecordRepository {
     }
 
     public List<Record> findRecordsByWeek(LocalDateTime date) {
-        //수정 중
-        LocalDate now = LocalDate.now();
-
         Calendar cal = Calendar.getInstance();
+        int week;
+        cal.set(date.getYear(), date.getMonthValue() - 1, date.getDayOfMonth());
 
-        cal.set(now.getYear(), now.getMonthValue()-1, now.getDayOfMonth());
-        cal.setFirstDayOfWeek(Calendar.SUNDAY);
-        int weekYear = cal.get(Calendar.WEEK_OF_YEAR);
+        Calendar sday = (Calendar) cal.clone();
+        week = sday.get(Calendar.DAY_OF_WEEK);
+        sday.add(Calendar.DATE, -(week - 1));
+//        LocalDate startDay = LocalDateTime.ofInstant(sday.toInstant(), ZoneId.systemDefault());
+        LocalDate startDay = LocalDate.ofInstant(sday.toInstant(), ZoneId.systemDefault());
 
-        LocalDate currentDate = LocalDate.of(now.getYear(), now.getMonthValue(), now.getDayOfMonth());
-        LocalDate pastDay = currentDate.minusWeeks(1);
+
+        Calendar eday = (Calendar) cal.clone();
+        week = eday.get(Calendar.DAY_OF_WEEK);
+        eday.add(Calendar.DATE, 7-week);
+
+        LocalDate endDay = LocalDate.ofInstant(sday.toInstant(), ZoneId.systemDefault());
 
 
-        return em.createQuery("select r from Record r where r.recordDate.convertedDate between :past and :cur order by r.recordDate.day")
-                .setParameter("past", pastDay)
-                .setParameter("cur", now)
+        return em.createQuery("select r from Record r where r.recordDate.convertedDate between :startDay and :endDay order by r.recordDate.day")
+                .setParameter("startDay", startDay)
+                .setParameter("endDay", endDay)
                 .getResultList();
     }
 
     public List<Record> findRecordsByMonth(LocalDateTime date) {
-        LocalDate now = LocalDate.now();
-        RecordDate recordDate;
-        LocalDate currentDate = LocalDate.of(now.getYear(), now.getMonthValue(), now.getDayOfMonth());
+        LocalDate currentDate = LocalDate.of(date.getYear(), date.getMonthValue(), date.getDayOfMonth());
         int currentMonth = currentDate.getMonthValue();
-        RecordDate firstDayOfMonth = new RecordDate(now.getYear(), currentMonth, 1);
-//        LocalDate pastDay = currentDate.minusMonths(1);
-
+        RecordDate firstDayOfMonth = new RecordDate(date.getYear(), currentMonth, 1);
 
         return em.createQuery("select r from Record r where r.recordDate.convertedDate between :past and :cur order by r.recordDate.day")
                 .setParameter("past", firstDayOfMonth)
-                .setParameter("cur", now)
+                .setParameter("cur", date)
                 .getResultList();
     }
 

@@ -20,6 +20,7 @@ public class RecordService {
     @Transactional
     public Long addRecord(Record record) {
         //validation 필요한가
+        record.getUser().setWaterIntake(record.getQuantity());
         recordRepository.save(record);
         return record.getId();
     }
