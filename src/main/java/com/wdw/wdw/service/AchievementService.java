@@ -16,4 +16,8 @@ public class AchievementService {
     public List<Achievement> findAllAchievements() {
         return achievementRepository.findAll();
     }
+
+    public void addAchievement(Long id, Long badgeId) {
+        //todo 비즈니스 로직 작성
+    }
 }

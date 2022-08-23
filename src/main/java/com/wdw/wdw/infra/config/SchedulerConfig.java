@@ -1,32 +1,25 @@
 package com.wdw.wdw.infra.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.annotation.AsyncConfigurer;
-import org.springframework.scheduling.annotation.SchedulingConfigurer;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
-import org.springframework.scheduling.config.ScheduledTaskRegistrar;
-
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import java.util.concurrent.Executor;
 
 @Configuration
-public class SchedulerConfig implements AsyncConfigurer, SchedulingConfigurer {
+@EnableAsync
+public class SchedulerConfig{
 
-    public ThreadPoolTaskScheduler threadPoolTaskScheduler() {
-        ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
-        scheduler.setPoolSize(Runtime.getRuntime().availableProcessors() * 2);
-        scheduler.setThreadNamePrefix("MY-SCHEDULER-");
-        scheduler.initialize();
-        return scheduler;
-    }
-    
-    @Override
-    public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-        taskRegistrar.setTaskScheduler(this.threadPoolTaskScheduler());
-    }
-
-    @Override
-    public Executor getAsyncExecutor() {
-        return this.threadPoolTaskScheduler();
+    @Bean(name = "asyncExecutor")
+    public Executor asyncExecutor(){
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(3);
+        executor.setMaxPoolSize(3);
+        executor.setQueueCapacity(100);
+        executor.setThreadNamePrefix("AsyncThread-");
+        executor.initialize();
+        executor.setWaitForTasksToCompleteOnShutdown(true);
+        return executor;
     }
 
 }

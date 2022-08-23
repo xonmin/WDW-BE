@@ -54,6 +54,10 @@ public class User {
         this.waterIntake += waterIntake;
     }
 
+    public void appendConsecutiveDays(Integer days){
+        this.consecutiveDays += days;
+    }
+
     public List<String> getRoleList() {
         if (this.roles.length() > 0) {
             return Arrays.asList(this.roles.split(","));

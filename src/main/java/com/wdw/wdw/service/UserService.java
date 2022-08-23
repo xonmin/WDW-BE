@@ -18,16 +18,14 @@ import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Slf4j @EnableAsync
+@Slf4j
 @RequiredArgsConstructor
-@Service @EnableScheduling
+@Service
 public class UserService {
 
     private final BCryptPasswordEncoder passwordEncoder;
 
     private final UserRepository userRepository;
-
-    private final RecordService recordService;
 
     public User signUp(UserDto.JoinReq req) {
         log.info("service signUp");
@@ -48,23 +46,6 @@ public class UserService {
         user.userUpdate(req);
         userRepository.save(user);
         return user;
-    }
-
-    @Async @Scheduled(cron = "0 5 0 * * *")
-    public void updateConsecutiveDays() {
-        List<User> userList = userRepository.findAll();
-        LocalDateTime yesterday = LocalDateTime.now().minusDays(1);
-        userList.parallelStream()
-                .filter(user -> !isEnough(user, yesterday))
-                .forEach(user -> user.setConsecutiveDays(0));
-    }
-
-    private boolean isEnough(User user, LocalDateTime dateTime){
-        List<Record> yesterdayRecordList = recordService.findRecordByDay(dateTime, user.getId());
-        int sum = yesterdayRecordList.parallelStream()
-                .mapToInt(Record::getQuantity)
-                .sum();
-        return sum >= user.getGoalAmount();
     }
 
 }
