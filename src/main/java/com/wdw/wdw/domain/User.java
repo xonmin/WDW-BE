@@ -38,6 +38,8 @@ public class User {
     private String providerId;
 
     private Integer consecutiveDays;
+
+    private Integer waterIntake;
     @OneToMany(mappedBy = "user")
     private List<Achievement> achievements = new ArrayList<>();
 
@@ -48,6 +50,10 @@ public class User {
         this.consecutiveDays = consecutiveDays;
     }
 
+    public void setWaterIntake(Integer waterIntake){
+        this.waterIntake = waterIntake;
+    }
+
     public List<String> getRoleList() {
         if (this.roles.length() > 0) {
             return Arrays.asList(this.roles.split(","));
@@ -55,7 +61,7 @@ public class User {
         return new ArrayList<>();
     }
     @Builder
-    public User(Long id, String username, String password, String email, String name, Integer weight, String roles, String provider, String providerId, Timestamp createDate, Integer consecutiveDays) {
+    public User(Long id, String username, String password, String email, String name, Integer weight, String roles, String provider, String providerId, Timestamp createDate, Integer consecutiveDays, Integer waterIntake) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -67,6 +73,7 @@ public class User {
         this.providerId = providerId;
         this.createDate = createDate;
         this.consecutiveDays = consecutiveDays;
+        this.waterIntake = waterIntake;
     }
 
     public void userUpdate(UpdateReq req){
