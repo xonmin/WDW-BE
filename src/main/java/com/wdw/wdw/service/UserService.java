@@ -64,7 +64,7 @@ public class UserService {
         int sum = yesterdayRecordList.parallelStream()
                 .mapToInt(Record::getQuantity)
                 .sum();
-        return sum < user.getWeight();
+        return sum < user.getGoalAmount();
     }
 
 }

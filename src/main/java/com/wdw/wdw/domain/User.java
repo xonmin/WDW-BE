@@ -83,4 +83,8 @@ public class User {
         this.weight = req.getWeight();
     }
 
+    public Integer getGoalAmount() {
+        return this.weight * 30;
+    }
+
 }
