@@ -50,8 +50,8 @@ public class User {
         this.consecutiveDays = consecutiveDays;
     }
 
-    public void setWaterIntake(Integer waterIntake){
-        this.waterIntake = waterIntake;
+    public void appendWaterIntake(Integer waterIntake){
+        this.waterIntake += waterIntake;
     }
 
     public List<String> getRoleList() {
