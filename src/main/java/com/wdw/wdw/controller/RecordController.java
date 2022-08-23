@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -28,9 +29,10 @@ public class RecordController {
     private final JwtTokenProvider jwtTokenProvider;
 
     @GetMapping(value = "/record/today")
-    public String getDayRecord(){
+    public String getDayRecord(@AuthenticationPrincipal PrincipalDetails details){
         LocalDateTime currentDate = LocalDateTime.now();
-        List<Record> findTodayRecord = recordService.findRecordByDay(currentDate);
+        Long userId = details.getUser().getId();
+        List<Record> findTodayRecord = recordService.findRecordByDay(currentDate, userId);
 
         return "일별 조회 완료";
     }

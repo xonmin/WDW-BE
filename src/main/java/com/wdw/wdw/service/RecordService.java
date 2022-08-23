@@ -28,8 +28,8 @@ public class RecordService {
         return recordRepository.findAll(name);
     }
 
-    public List<Record> findRecordByDay(LocalDateTime datetime) {
-        return recordRepository.findRecordsByDay(datetime);
+    public List<Record> findRecordByDay(LocalDateTime datetime, Long userId) {
+        return recordRepository.findRecordsByDay(datetime, userId);
     }
 
     public List<Record> findRecordByWeek(LocalDateTime dateTime) {
