@@ -53,18 +53,18 @@ public class UserService {
     @Async @Scheduled(cron = "0 5 0 * * *")
     public void updateConsecutiveDays() {
         List<User> userList = userRepository.findAll();
+        LocalDateTime yesterday = LocalDateTime.now().minusDays(1);
         userList.parallelStream()
-                .filter(this::isNotEnoughYesterday)
+                .filter(user -> !isEnough(user, yesterday))
                 .forEach(user -> user.setConsecutiveDays(0));
     }
 
-    private boolean isNotEnoughYesterday(User user){
-        LocalDateTime yesterday = LocalDateTime.now().minusDays(1);
-        List<Record> yesterdayRecordList = recordService.findRecordByDay(yesterday, user.getId());
+    private boolean isEnough(User user, LocalDateTime dateTime){
+        List<Record> yesterdayRecordList = recordService.findRecordByDay(dateTime, user.getId());
         int sum = yesterdayRecordList.parallelStream()
                 .mapToInt(Record::getQuantity)
                 .sum();
-        return sum < user.getGoalAmount();
+        return sum >= user.getGoalAmount();
     }
 
 }
