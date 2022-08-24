@@ -1,7 +1,9 @@
 package com.wdw.wdw.service;
 
 import com.wdw.wdw.domain.Record;
+import com.wdw.wdw.domain.User;
 import com.wdw.wdw.repository.RecordRepository;
+import com.wdw.wdw.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +22,11 @@ public class RecordService {
     @Transactional
     public Long addRecord(Record record) {
         //validation 필요한가
-        record.getUser().setWaterIntake(record.getQuantity());
+        User user = record.getUser();
+        user.appendWaterIntake(record.getQuantity());
+        if (isEnough(user, LocalDateTime.now())){
+            user.appendConsecutiveDays(1);
+        }
         recordRepository.save(record);
         return record.getId();
     }
@@ -39,5 +45,13 @@ public class RecordService {
 
     public List<Record> findRecordByMonth(LocalDateTime dateTime) {
         return recordRepository.findRecordsByMonth(dateTime);
+    }
+
+    public boolean isEnough(User user, LocalDateTime dateTime){
+        List<Record> yesterdayRecordList = findRecordByDay(dateTime, user.getId());
+        int sum = yesterdayRecordList.parallelStream()
+                .mapToInt(Record::getQuantity)
+                .sum();
+        return sum >= user.getGoalAmount();
     }
 }

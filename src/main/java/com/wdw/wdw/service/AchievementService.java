@@ -44,8 +44,4 @@ public class AchievementService {
         achievementRepository.save(newAchievement);
     }
 
-//    private BadgeType checkBadgeType() {
-//
-//    }
-
 }

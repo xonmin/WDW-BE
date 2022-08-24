@@ -50,8 +50,12 @@ public class User {
         this.consecutiveDays = consecutiveDays;
     }
 
-    public void setWaterIntake(Integer waterIntake){
-        this.waterIntake = waterIntake;
+    public void appendWaterIntake(Integer waterIntake){
+        this.waterIntake += waterIntake;
+    }
+
+    public void appendConsecutiveDays(Integer days){
+        this.consecutiveDays += days;
     }
 
     public List<String> getRoleList() {
@@ -81,6 +85,10 @@ public class User {
         this.email = req.getEmail();
         this.name = req.getName();
         this.weight = req.getWeight();
+    }
+
+    public Integer getGoalAmount() {
+        return this.weight * 30;
     }
 
 }
