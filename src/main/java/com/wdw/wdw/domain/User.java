@@ -40,7 +40,8 @@ public class User {
     private Integer consecutiveDays;
 
     private Integer waterIntake;
-    @OneToMany(mappedBy = "user")
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Achievement> achievements = new ArrayList<>();
 
     @CreationTimestamp
@@ -91,4 +92,9 @@ public class User {
         return this.weight * 30;
     }
 
+    //Achievement 생성 메소드
+    public void addNewAchievement(Achievement achievement) {
+        achievements.add(achievement);
+        achievement.setUser(this);
+    }
 }
