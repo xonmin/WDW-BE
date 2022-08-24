@@ -23,4 +23,8 @@ public class Badge {
 
     private String badgeName;
     private String badgeImage;
+
+    public void setBadgeType(BadgeType badgeType) {
+        this.badgeType = badgeType;
+    }
 }
