@@ -18,6 +18,7 @@ import java.util.List;
 public class RecordService {
 
     private final RecordRepository recordRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     public Long addRecord(Record record) {
@@ -27,6 +28,7 @@ public class RecordService {
         if (isEnough(user, LocalDateTime.now())){
             user.appendConsecutiveDays(1);
         }
+        userRepository.save(user);
         recordRepository.save(record);
         return record.getId();
     }

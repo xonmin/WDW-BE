@@ -9,11 +9,13 @@ import com.wdw.wdw.repository.BadgeRepository;
 import com.wdw.wdw.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class AchievementService {
 
@@ -25,23 +27,70 @@ public class AchievementService {
         return achievementRepository.findAll();
     }
 
-    public void addAchievement(Long userId, Long badgeId) {
-        Achievement newAchievement = new Achievement();
+    public BadgeType checkWaterIntake(User user) {
+        Integer curIntake = user.getWaterIntake();
 
-        Optional<User> findUser = userRepository.findById(userId);
-        Optional<Badge> findBadge = badgeRepository.findById(badgeId);
-
-        if (findUser.isPresent()) {
-            if (findBadge.isPresent()) {
-                newAchievement.setUser(findUser.get());
-                newAchievement.setBadge(findBadge.get());
-            } else {
-                throw new IllegalStateException("등록되지 않은 배지입니다");
+        if (curIntake >= 5000 && curIntake < 10000) {
+            boolean checkFlag = false;
+            for (Achievement achievement : user.getAchievements()) {
+                if (achievement.getBadge().equals(BadgeType.SUM_BRONZE)) {
+                    checkFlag = true;
+                }
             }
-        }else{
-            throw new IllegalStateException("User를 찾을 수 없습니다");
+            if (!checkFlag) {
+                return BadgeType.SUM_BRONZE;
+            }
+        } else if (curIntake >= 10000 && curIntake < 50000) {
+            boolean checkFlag = false;
+            for (Achievement achievement : user.getAchievements()) {
+                if (achievement.getBadge().equals(BadgeType.SUM_SILVER)) {
+                    checkFlag = true;
+                }
+            }
+            if (!checkFlag) {
+                return BadgeType.SUM_SILVER;
+            }
+        } else if (curIntake >= 50000) {
+            boolean checkFlag = false;
+            for (Achievement achievement : user.getAchievements()) {
+                if (achievement.getBadge().equals(BadgeType.SUM_GOLD)) {
+                    checkFlag = true;
+                }
+            }
+            if (!checkFlag) {
+                return BadgeType.SUM_GOLD;
+            }
         }
-        achievementRepository.save(newAchievement);
+        return BadgeType.SUM_BASIC;
     }
 
+    public boolean checkIfInList(User user, BadgeType badgeType) {
+        List<Achievement> achievements = user.getAchievements();
+        boolean checkFlag = false;
+        for (Achievement achievement : achievements) {
+            if (achievement.getBadge().equals(badgeType)) {
+                checkFlag = true;
+            }
+        }
+        return checkFlag;
+    }
+
+    @Transactional
+    public Long addAchievement(Long userId) {
+        Optional<User> findUser = userRepository.findById(userId);
+
+        //badge찾아서
+        BadgeType type = checkWaterIntake(findUser.get());
+        Optional<Badge> findBadge = badgeRepository.findByBadgeType(type);
+
+        //achievement 등록
+        Achievement achievement = Achievement.createAchievement(findBadge.get());
+        if (findUser.isPresent()) {
+            findUser.get().addNewAchievement(achievement);
+        } else {
+            throw new IllegalStateException("찾을 수 없는 유저");
+        }
+
+        return achievement.getId();
+    }
 }

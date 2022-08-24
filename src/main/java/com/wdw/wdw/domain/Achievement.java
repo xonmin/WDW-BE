@@ -24,11 +24,17 @@ public class Achievement {
 
     public void setBadge(Badge badge) {
         this.badge = badge;
-        badge.getAchievements().add(this);
     }
 
     public void setUser(User user) {
         this.user = user;
         user.getAchievements().add(this);
+    }
+
+    public static Achievement createAchievement(Badge badge) {
+        Achievement achievement = new Achievement();
+        achievement.setBadge(badge);
+
+        return achievement;
     }
 }

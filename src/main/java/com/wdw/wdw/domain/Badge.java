@@ -18,9 +18,10 @@ public class Badge {
     @Enumerated(EnumType.STRING)
     private BadgeType badgeType;
 
-    @OneToMany(mappedBy = "badge")
-    private List<Achievement> achievements = new ArrayList<>();
-
     private String badgeName;
     private String badgeImage;
+
+    public void setBadgeType(BadgeType badgeType) {
+        this.badgeType = badgeType;
+    }
 }
