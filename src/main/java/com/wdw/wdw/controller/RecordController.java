@@ -7,6 +7,7 @@ import com.wdw.wdw.domain.Record;
 import com.wdw.wdw.domain.User;
 
 import com.wdw.wdw.repository.UserRepository;
+import com.wdw.wdw.service.AchievementService;
 import com.wdw.wdw.service.RecordService;
 import lombok.RequiredArgsConstructor;
 
@@ -25,6 +26,7 @@ import java.util.List;
 public class RecordController {
 
     private final RecordService recordService;
+    private final AchievementService achievementService;
 
     @GetMapping(value = "/record/today")
     public String getDayRecord(@AuthenticationPrincipal PrincipalDetails details){
@@ -58,12 +60,13 @@ public class RecordController {
             User findUser = principal.getUser();
             System.out.println("findUser = " + findUser.getUsername());
             record.setUser(findUser);
+
+            recordService.addRecord(record);
+            achievementService.addAchievement(record.getUser().getId());
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        recordService.addRecord(record);
-
         return "기록 저장 완료";
+
     }
 }
