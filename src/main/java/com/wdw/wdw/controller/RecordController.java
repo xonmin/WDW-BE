@@ -25,8 +25,6 @@ import java.util.List;
 public class RecordController {
 
     private final RecordService recordService;
-    private final UserRepository userRepository;
-    private final JwtTokenProvider jwtTokenProvider;
 
     @GetMapping(value = "/record/today")
     public String getDayRecord(@AuthenticationPrincipal PrincipalDetails details){
