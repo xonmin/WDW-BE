@@ -35,6 +35,7 @@ public class UserService {
                 .email(req.getEmail())
                 .name(req.getName())
                 .roles("ROLE_USER")
+                .waterIntake(0)
                 .build();
         userRepository.save(user);
         return user;

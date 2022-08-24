@@ -1,12 +1,12 @@
 package com.wdw.wdw.domain;
 
-import lombok.Data;
+import lombok.Getter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Data
+@Getter
 public class Record {
 
     @Id
