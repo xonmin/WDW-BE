@@ -5,38 +5,26 @@ import com.wdw.wdw.domain.Badge;
 import com.wdw.wdw.domain.BadgeType;
 import com.wdw.wdw.domain.User;
 import com.wdw.wdw.repository.AchievementRepository;
+import com.wdw.wdw.repository.BadgeRepository;
 import com.wdw.wdw.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class AchievementService {
 
     private final AchievementRepository achievementRepository;
     private final UserRepository userRepository;
+    private final BadgeRepository badgeRepository;
 
     public List<Achievement> findAllAchievements() {
         return achievementRepository.findAll();
-    }
-
-    public void addAchievement(Long userId, Long badgeId) {
-        Achievement newAchievement = new Achievement();
-
-        Optional<User> findUser = userRepository.findById(userId);
-
-        if (findUser.isPresent()) {
-            Badge addBadge = new Badge();
-            addBadge.setBadgeType(checkWaterIntake(findUser.get()));
-            newAchievement.setUser(findUser.get());
-            newAchievement.setBadge(addBadge);
-        }else{
-            throw new IllegalStateException("User를 찾을 수 없습니다");
-        }
-        achievementRepository.save(newAchievement);
     }
 
     public BadgeType checkWaterIntake(User user) {
@@ -74,5 +62,35 @@ public class AchievementService {
             }
         }
         return BadgeType.SUM_BASIC;
+    }
+
+    public boolean checkIfInList(User user, BadgeType badgeType) {
+        List<Achievement> achievements = user.getAchievements();
+        boolean checkFlag = false;
+        for (Achievement achievement : achievements) {
+            if (achievement.getBadge().equals(badgeType)) {
+                checkFlag = true;
+            }
+        }
+        return checkFlag;
+    }
+
+    @Transactional
+    public Long addAchievement(Long userId) {
+        Optional<User> findUser = userRepository.findById(userId);
+
+        //badge찾아서
+        BadgeType type = checkWaterIntake(findUser.get());
+        Optional<Badge> findBadge = badgeRepository.findByBadgeType(type);
+
+        //achievement 등록
+        Achievement achievement = Achievement.createAchievement(findBadge.get());
+        if (findUser.isPresent()) {
+            findUser.get().addNewAchievement(achievement);
+        } else {
+            throw new IllegalStateException("찾을 수 없는 유저");
+        }
+
+        return achievement.getId();
     }
 }
