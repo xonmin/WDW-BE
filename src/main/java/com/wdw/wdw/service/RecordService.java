@@ -22,7 +22,6 @@ public class RecordService {
 
     @Transactional
     public Long addRecord(Record record) {
-        //validation 필요한가
         User user = record.getUser();
         user.appendWaterIntake(record.getQuantity());
         if (isEnough(user, LocalDateTime.now())){

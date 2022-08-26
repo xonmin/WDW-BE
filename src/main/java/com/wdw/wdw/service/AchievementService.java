@@ -30,47 +30,33 @@ public class AchievementService {
     public BadgeType checkWaterIntake(User user) {
         Integer curIntake = user.getWaterIntake();
 
-        if (curIntake >= 5000 && curIntake < 10000) {
-            boolean checkFlag = false;
-            for (Achievement achievement : user.getAchievements()) {
-                if (achievement.getBadge().equals(BadgeType.SUM_BRONZE)) {
-                    checkFlag = true;
-                }
-            }
-            if (!checkFlag) {
-                return BadgeType.SUM_BRONZE;
-            }
-        } else if (curIntake >= 10000 && curIntake < 50000) {
-            boolean checkFlag = false;
-            for (Achievement achievement : user.getAchievements()) {
-                if (achievement.getBadge().equals(BadgeType.SUM_SILVER)) {
-                    checkFlag = true;
-                }
-            }
-            if (!checkFlag) {
-                return BadgeType.SUM_SILVER;
-            }
-        } else if (curIntake >= 50000) {
-            boolean checkFlag = false;
-            for (Achievement achievement : user.getAchievements()) {
-                if (achievement.getBadge().equals(BadgeType.SUM_GOLD)) {
-                    checkFlag = true;
-                }
-            }
-            if (!checkFlag) {
-                return BadgeType.SUM_GOLD;
-            }
+        if (curIntake >= 10000 && curIntake < 50000) {
+            return BadgeType.SUM_BRONZE;
+        } else if (curIntake >= 50000 && curIntake < 100000) {
+            return BadgeType.SUM_SILVER;
+        } else if (curIntake >= 100000) {
+            return BadgeType.SUM_GOLD;
         }
         return BadgeType.SUM_BASIC;
     }
 
+    public BadgeType checkConsecutiveDays(User user) {
+        Integer curConDays = user.getConsecutiveDays();
+        if (curConDays >= 7) {
+            return BadgeType.CON_BRONZE;
+        } else if (curConDays > 30 && curConDays < 180) {
+            return BadgeType.CON_SILVER;
+        } else if (curConDays >= 180) {
+            return BadgeType.CON_GOLD;
+        }
+        return BadgeType.CON_BASIC;
+    }
+
     public boolean checkIfInList(User user, BadgeType badgeType) {
-        List<Achievement> achievements = user.getAchievements();
+        List<Achievement> foundByBadge = achievementRepository.findAchievementsByUserAndBadge_BadgeType(user, badgeType);
         boolean checkFlag = false;
-        for (Achievement achievement : achievements) {
-            if (achievement.getBadge().equals(badgeType)) {
-                checkFlag = true;
-            }
+        if (!foundByBadge.isEmpty()) {
+            checkFlag = true;
         }
         return checkFlag;
     }
@@ -79,18 +65,26 @@ public class AchievementService {
     public Long addAchievement(Long userId) {
         Optional<User> findUser = userRepository.findById(userId);
 
-        //badge찾아서
-        BadgeType type = checkWaterIntake(findUser.get());
-        Optional<Badge> findBadge = badgeRepository.findByBadgeType(type);
+        BadgeType waterType = checkWaterIntake(findUser.get());
+        Optional<Badge> waterBadge = badgeRepository.findByBadgeType(waterType);
+
+        BadgeType dayType = checkConsecutiveDays(findUser.get());
+        Optional<Badge> dayBadge = badgeRepository.findByBadgeType(dayType);
 
         //achievement 등록
-        Achievement achievement = Achievement.createAchievement(findBadge.get());
+        Achievement waterAchievement = Achievement.createAchievement(waterBadge.get());
+        Achievement dayAchievement = Achievement.createAchievement(dayBadge.get());
         if (findUser.isPresent()) {
-            findUser.get().addNewAchievement(achievement);
+            if (!checkIfInList(findUser.get(), waterType)) {
+                findUser.get().addNewAchievement(waterAchievement);
+            }
+            if (!checkIfInList(findUser.get(), dayType)) {
+                findUser.get().addNewAchievement(dayAchievement);
+            }
         } else {
             throw new IllegalStateException("찾을 수 없는 유저");
         }
 
-        return achievement.getId();
+        return waterAchievement.getId();
     }
 }
