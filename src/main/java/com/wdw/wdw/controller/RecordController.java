@@ -1,20 +1,19 @@
 package com.wdw.wdw.controller;
 
-import com.wdw.wdw.infra.jwt.PrincipalDetails;
-import com.wdw.wdw.infra.jwt.JwtTokenProvider;
-
 import com.wdw.wdw.domain.Record;
 import com.wdw.wdw.domain.User;
-
-import com.wdw.wdw.repository.UserRepository;
+import com.wdw.wdw.infra.jwt.PrincipalDetails;
 import com.wdw.wdw.service.AchievementService;
 import com.wdw.wdw.service.RecordService;
 import lombok.RequiredArgsConstructor;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,7 +28,7 @@ public class RecordController {
     private final AchievementService achievementService;
 
     @GetMapping(value = "/record/today")
-    public String getDayRecord(@AuthenticationPrincipal PrincipalDetails details){
+    public String getDayRecord(@AuthenticationPrincipal PrincipalDetails details) {
         LocalDateTime currentDate = LocalDateTime.now();
         Long userId = details.getUser().getId();
         List<Record> findTodayRecord = recordService.findRecordByDay(currentDate, userId);

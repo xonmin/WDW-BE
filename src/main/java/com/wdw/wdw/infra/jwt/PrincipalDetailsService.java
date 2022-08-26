@@ -21,7 +21,6 @@ public class PrincipalDetailsService implements UserDetailsService {
         return userRepository.findByUsername(username)
                 .map(PrincipalDetails::new)
                 .orElse(null);
-
     }
 }
 

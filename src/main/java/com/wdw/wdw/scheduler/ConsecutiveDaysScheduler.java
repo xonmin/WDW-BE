@@ -3,7 +3,6 @@ package com.wdw.wdw.scheduler;
 import com.wdw.wdw.domain.User;
 import com.wdw.wdw.repository.UserRepository;
 import com.wdw.wdw.service.RecordService;
-import com.wdw.wdw.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;

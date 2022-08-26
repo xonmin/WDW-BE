@@ -1,11 +1,18 @@
 package com.wdw.wdw.domain;
 
 import com.wdw.wdw.dto.UserDto.UpdateReq;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.stereotype.Service;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,11 +58,11 @@ public class User {
         this.consecutiveDays = consecutiveDays;
     }
 
-    public void appendWaterIntake(Integer waterIntake){
+    public void appendWaterIntake(Integer waterIntake) {
         this.waterIntake += waterIntake;
     }
 
-    public void appendConsecutiveDays(Integer days){
+    public void appendConsecutiveDays(Integer days) {
         this.consecutiveDays += days;
     }
 
@@ -65,6 +72,7 @@ public class User {
         }
         return new ArrayList<>();
     }
+
     @Builder
     public User(Long id, String username, String password, String email, String name, Integer weight, String roles, String provider, String providerId, Timestamp createDate, Integer consecutiveDays, Integer waterIntake) {
         this.id = id;
@@ -81,7 +89,7 @@ public class User {
         this.waterIntake = waterIntake;
     }
 
-    public void userUpdate(UpdateReq req){
+    public void userUpdate(UpdateReq req) {
         this.password = req.getPassword();
         this.email = req.getEmail();
         this.name = req.getName();
