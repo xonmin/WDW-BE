@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
 @EnableConfigurationProperties(AppProperties.class)
+// @EnableScheduling
 public class WdwApplication {
     @Bean
     public BCryptPasswordEncoder encodePassword(){
@@ -16,7 +17,6 @@ public class WdwApplication {
     }
     public static void main(String[] args) {
         SpringApplication.run(WdwApplication.class, args);
-        //git branch test
     }
 
 }

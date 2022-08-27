@@ -4,6 +4,7 @@ import com.wdw.wdw.domain.Achievement;
 import com.wdw.wdw.domain.Badge;
 import com.wdw.wdw.domain.BadgeType;
 import com.wdw.wdw.domain.User;
+import com.wdw.wdw.exception.EntityNotFoundException;
 import com.wdw.wdw.repository.AchievementRepository;
 import com.wdw.wdw.repository.BadgeRepository;
 import com.wdw.wdw.repository.UserRepository;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -54,35 +54,30 @@ public class AchievementService {
 
     public boolean checkIfInList(User user, BadgeType badgeType) {
         List<Achievement> foundByBadge = achievementRepository.findAchievementsByUserAndBadge_BadgeType(user, badgeType);
-        boolean checkFlag = false;
-        if (!foundByBadge.isEmpty()) {
-            checkFlag = true;
-        }
-        return checkFlag;
+        boolean checkFlag = !foundByBadge.isEmpty();
+        return !checkFlag;
     }
 
     @Transactional
     public Long addAchievement(Long userId) {
-        Optional<User> findUser = userRepository.findById(userId);
-
-        BadgeType waterType = checkWaterIntake(findUser.get());
-        Optional<Badge> waterBadge = badgeRepository.findByBadgeType(waterType);
-
-        BadgeType dayType = checkConsecutiveDays(findUser.get());
-        Optional<Badge> dayBadge = badgeRepository.findByBadgeType(dayType);
+        User user = userRepository.findById(userId)
+                .orElseThrow(EntityNotFoundException::new);
+        BadgeType waterType = checkWaterIntake(user);
+        Badge waterBadge = badgeRepository.findByBadgeType(waterType)
+                .orElseThrow(EntityNotFoundException::new);
+        BadgeType dayType = checkConsecutiveDays(user);
+        Badge dayBadge = badgeRepository.findByBadgeType(dayType)
+                .orElseThrow(EntityNotFoundException::new);
 
         //achievement 등록
-        Achievement waterAchievement = Achievement.createAchievement(waterBadge.get());
-        Achievement dayAchievement = Achievement.createAchievement(dayBadge.get());
-        if (findUser.isPresent()) {
-            if (!checkIfInList(findUser.get(), waterType)) {
-                findUser.get().addNewAchievement(waterAchievement);
-            }
-            if (!checkIfInList(findUser.get(), dayType)) {
-                findUser.get().addNewAchievement(dayAchievement);
-            }
-        } else {
-            throw new IllegalStateException("찾을 수 없는 유저");
+        Achievement waterAchievement = Achievement.createAchievement(waterBadge);
+        Achievement dayAchievement = Achievement.createAchievement(dayBadge);
+
+        if (checkIfInList(user, waterType)) {
+            user.addNewAchievement(waterAchievement);
+        }
+        if (checkIfInList(user, dayType)) {
+            user.addNewAchievement(dayAchievement);
         }
 
         return waterAchievement.getId();

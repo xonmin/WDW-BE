@@ -58,7 +58,7 @@ public class RecordRepository {
 
         Calendar eday = (Calendar) cal.clone();
         week = eday.get(Calendar.DAY_OF_WEEK);
-        eday.add(Calendar.DATE, 7-week);
+        eday.add(Calendar.DATE, 7 - week);
 
         LocalDate endDay = LocalDate.ofInstant(sday.toInstant(), ZoneId.systemDefault());
 

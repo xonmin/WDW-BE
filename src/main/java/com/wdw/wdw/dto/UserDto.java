@@ -10,9 +10,10 @@ import lombok.NoArgsConstructor;
 @Getter
 public class UserDto {
 
-    @Builder @Getter
+    @Builder
+    @Getter
     @AllArgsConstructor
-    public static class JoinReq{
+    public static class JoinReq {
         private String username;
 
         private String password;
@@ -21,7 +22,7 @@ public class UserDto {
 
         private String name;
 
-        public User toEntity(){
+        public User toEntity() {
             return User.builder()
                     .username(this.username)
                     .password(this.password)
@@ -31,7 +32,8 @@ public class UserDto {
         }
     }
 
-    @Getter @Builder
+    @Getter
+    @Builder
     @AllArgsConstructor
     public static class UpdateReq {
 
