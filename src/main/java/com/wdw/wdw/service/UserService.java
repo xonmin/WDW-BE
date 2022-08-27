@@ -25,9 +25,9 @@ public class UserService {
         User user = User.builder()
                 .username(req.getUsername())
                 .password(passwordEncoder.encode(req.getPassword()))
-                .email(req.getEmail())
                 .name(req.getName())
                 .roles("ROLE_USER")
+                .consecutiveDays(0)
                 .waterIntake(0)
                 .build();
         userRepository.save(user);
@@ -40,5 +40,11 @@ public class UserService {
         user.userUpdate(req);
         userRepository.save(user);
         return user;
+    }
+
+    public UserDto.ExistRes validateUsername(String username) {
+        return userRepository.findByUsername(username)
+                .map(user -> new UserDto.ExistRes("unusable"))
+                .orElse(new UserDto.ExistRes("usable"));
     }
 }

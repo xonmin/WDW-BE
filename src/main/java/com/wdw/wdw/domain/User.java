@@ -32,8 +32,6 @@ public class User {
 
     private String password;
 
-    private String email;
-
     private String name;
 
     private Integer weight;
@@ -74,24 +72,21 @@ public class User {
     }
 
     @Builder
-    public User(Long id, String username, String password, String email, String name, Integer weight, String roles, String provider, String providerId, Timestamp createDate, Integer consecutiveDays, Integer waterIntake) {
+    public User(Long id, String username, String password, String name, Integer weight, String roles, String provider, String providerId, Integer consecutiveDays, Integer waterIntake) {
         this.id = id;
         this.username = username;
         this.password = password;
-        this.email = email;
         this.name = name;
         this.weight = weight;
         this.roles = roles;
         this.provider = provider;
         this.providerId = providerId;
-        this.createDate = createDate;
         this.consecutiveDays = consecutiveDays;
         this.waterIntake = waterIntake;
     }
 
     public void userUpdate(UpdateReq req) {
         this.password = req.getPassword();
-        this.email = req.getEmail();
         this.name = req.getName();
         this.weight = req.getWeight();
     }

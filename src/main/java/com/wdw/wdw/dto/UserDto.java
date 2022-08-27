@@ -1,5 +1,6 @@
 package com.wdw.wdw.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.wdw.wdw.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,7 +27,6 @@ public class UserDto {
             return User.builder()
                     .username(this.username)
                     .password(this.password)
-                    .email(this.email)
                     .name(this.name)
                     .build();
         }
@@ -44,6 +44,13 @@ public class UserDto {
         private String name;
 
         private Integer weight;
+    }
+
+    @Builder
+    @AllArgsConstructor
+    public static class ExistRes {
+        @JsonProperty
+        private String availability;
     }
 
 }
