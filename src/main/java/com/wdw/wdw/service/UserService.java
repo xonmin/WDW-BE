@@ -1,8 +1,11 @@
 package com.wdw.wdw.service;
 
 import com.wdw.wdw.domain.User;
-import com.wdw.wdw.dto.UserDto;
-import com.wdw.wdw.dto.UserDto.UpdateReq;
+import com.wdw.wdw.dto.UserExistResponseDto;
+import com.wdw.wdw.dto.UserJoinRequestDto;
+import com.wdw.wdw.dto.UserJoinResponseDto;
+import com.wdw.wdw.dto.UserUpdateRequestDto;
+import com.wdw.wdw.dto.UserUpdateResponseDto;
 import com.wdw.wdw.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,25 +23,30 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public User signUp(UserDto.JoinReq req) {
-        log.info("service signUp");
+    public UserJoinResponseDto signUp(UserJoinRequestDto req) {
         User user = User.builder()
                 .username(req.getUsername())
                 .password(passwordEncoder.encode(req.getPassword()))
-                .email(req.getEmail())
                 .name(req.getName())
                 .roles("ROLE_USER")
+                .consecutiveDays(0)
                 .waterIntake(0)
                 .build();
         userRepository.save(user);
-        return user;
+        return UserJoinResponseDto.from(user);
     }
 
-    public User update(String username, UpdateReq req) {
+    public UserUpdateResponseDto update(String username, UserUpdateRequestDto req) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(EntityNotFoundException::new);
         user.userUpdate(req);
         userRepository.save(user);
-        return user;
+        return UserUpdateResponseDto.from(user, "updated");
+    }
+
+    public UserExistResponseDto validateUsername(String username) {
+        return userRepository.findByUsername(username)
+                .map(user -> new UserExistResponseDto("unusable"))
+                .orElse(new UserExistResponseDto("usable"));
     }
 }

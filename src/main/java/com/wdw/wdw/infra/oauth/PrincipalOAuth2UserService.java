@@ -4,7 +4,7 @@ import com.wdw.wdw.infra.jwt.PrincipalDetails;
 import com.wdw.wdw.infra.oauth.provider.OAuth2UserInfo;
 import com.wdw.wdw.infra.oauth.provider.UserInfoFactoryImpl;
 import com.wdw.wdw.domain.User;
-import com.wdw.wdw.exception.InvalidProviderType;
+import com.wdw.wdw.exception.InvalidProviderTypeException;
 import com.wdw.wdw.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +28,7 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
         OAuth2UserInfo oAuth2UserInfo = null;
         try {
             oAuth2UserInfo = userInfoFactory.makeUserInfo(userRequest, oAuth2User.getAttributes());
-        } catch (InvalidProviderType e) {
+        } catch (InvalidProviderTypeException e) {
             String message = e.getMessage();
             System.out.println(message);
             e.printStackTrace();
@@ -47,12 +47,10 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
         String provider = oAuth2UserInfo.getProvider();
         String providerId = oAuth2UserInfo.getProviderId();
         String username = provider + "_" + providerId;
-        String email = oAuth2UserInfo.getEmail();
         String roles = "ROLE_USER";
 
         User user = User.builder()
                 .username(username)
-                .email(email)
                 .roles(roles)
                 .provider(provider)
                 .providerId(providerId)
