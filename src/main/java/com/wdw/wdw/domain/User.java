@@ -1,6 +1,6 @@
 package com.wdw.wdw.domain;
 
-import com.wdw.wdw.dto.UserDto.UpdateReq;
+import com.wdw.wdw.dto.UserUpdateRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -85,7 +85,7 @@ public class User {
         this.waterIntake = waterIntake;
     }
 
-    public void userUpdate(UpdateReq req) {
+    public void userUpdate(UserUpdateRequestDto req) {
         this.password = req.getPassword();
         this.name = req.getName();
         this.weight = req.getWeight();
