@@ -1,4 +1,4 @@
-package com.wdw.wdw.dto;
+package com.wdw.wdw.dto.record;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserExistResponseDto {
+public class RecordAddRequestDto {
 
-    private String availability;
+    private Integer quantity;
 }

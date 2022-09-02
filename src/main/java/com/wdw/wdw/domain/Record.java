@@ -1,5 +1,6 @@
 package com.wdw.wdw.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -18,20 +19,33 @@ public class Record {
     @JoinColumn(name = "user_seq")
     private User user;
 
-    @Embedded
-    private RecordDate recordDate;
-    private int quantity;
+    private Integer quantity;
 
-    public Record() {
-        this.recordDate = new RecordDate(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth());
+    private LocalDate recordTime;
+
+    @Builder
+    public Record(
+            Long id,
+            User user,
+            Integer quantity,
+            LocalDate date)
+    {
+        this.id = id;
+        this.user = user;
+        this.quantity = quantity;
+        this.recordTime = date;
     }
 
-    public Record(int quantity) {
-        this.quantity = quantity;
-        this.recordDate = new RecordDate(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth());
+
+    public Record() {
+        this.recordTime = LocalDate.now();
     }
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getUsername() {
+        return this.user.getUsername();
     }
 }

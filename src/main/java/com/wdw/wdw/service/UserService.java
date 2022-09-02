@@ -1,11 +1,11 @@
 package com.wdw.wdw.service;
 
 import com.wdw.wdw.domain.User;
-import com.wdw.wdw.dto.UserExistResponseDto;
-import com.wdw.wdw.dto.UserJoinRequestDto;
-import com.wdw.wdw.dto.UserJoinResponseDto;
-import com.wdw.wdw.dto.UserUpdateRequestDto;
-import com.wdw.wdw.dto.UserUpdateResponseDto;
+import com.wdw.wdw.dto.user.UserExistResponseDto;
+import com.wdw.wdw.dto.user.UserJoinRequestDto;
+import com.wdw.wdw.dto.user.UserJoinResponseDto;
+import com.wdw.wdw.dto.user.UserUpdateRequestDto;
+import com.wdw.wdw.dto.user.UserUpdateResponseDto;
 import com.wdw.wdw.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,9 +1,10 @@
 package com.wdw.wdw.domain;
 
-import com.wdw.wdw.dto.UserUpdateRequestDto;
+import com.wdw.wdw.dto.user.UserUpdateRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import net.minidev.json.annotate.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.CascadeType;
@@ -47,6 +48,7 @@ public class User {
     private Integer waterIntake;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Achievement> achievements = new ArrayList<>();
 
     @CreationTimestamp
