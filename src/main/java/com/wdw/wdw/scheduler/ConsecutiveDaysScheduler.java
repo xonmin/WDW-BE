@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -23,7 +23,7 @@ public class ConsecutiveDaysScheduler {
     @Scheduled(cron = "0 5 0 * * *")
     public void updateConsecutiveDays() {
         List<User> userList = userRepository.findAll();
-        LocalDateTime yesterday = LocalDateTime.now().minusDays(1);
+        LocalDate yesterday = LocalDate.now().minusDays(1);
         userList.parallelStream()
                 .filter(user -> !recordService.isEnough(user, yesterday))
                 .forEach(user -> user.setConsecutiveDays(0));
