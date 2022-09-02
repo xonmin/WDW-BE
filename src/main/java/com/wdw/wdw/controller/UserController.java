@@ -1,12 +1,12 @@
 package com.wdw.wdw.controller;
 
 
-import com.wdw.wdw.dto.UserExistResponseDto;
-import com.wdw.wdw.dto.UserGetResponseDto;
-import com.wdw.wdw.dto.UserJoinRequestDto;
-import com.wdw.wdw.dto.UserJoinResponseDto;
-import com.wdw.wdw.dto.UserUpdateRequestDto;
-import com.wdw.wdw.dto.UserUpdateResponseDto;
+import com.wdw.wdw.dto.user.UserExistResponseDto;
+import com.wdw.wdw.dto.user.UserGetResponseDto;
+import com.wdw.wdw.dto.user.UserJoinRequestDto;
+import com.wdw.wdw.dto.user.UserJoinResponseDto;
+import com.wdw.wdw.dto.user.UserUpdateRequestDto;
+import com.wdw.wdw.dto.user.UserUpdateResponseDto;
 import com.wdw.wdw.infra.ApiResponse;
 import com.wdw.wdw.infra.jwt.PrincipalDetails;
 import com.wdw.wdw.service.UserService;
