@@ -1,4 +1,4 @@
-package com.wdw.wdw.dto.requestDto;
+package com.wdw.wdw.dto.user;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,4 +1,4 @@
-package com.wdw.wdw.dto;
+package com.wdw.wdw.dto.user;
 
 import com.wdw.wdw.domain.User;
 import lombok.Builder;

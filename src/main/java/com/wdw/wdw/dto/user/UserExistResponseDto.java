@@ -1,4 +1,4 @@
-package com.wdw.wdw.dto.responseDto;
+package com.wdw.wdw.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
