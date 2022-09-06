@@ -8,40 +8,26 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 public interface RecordRepository extends JpaRepository<Record, Long> {
-
-    List<Record> findRecordsByUser(User user);
-
-    Optional<Record> findRecordById(Long id);
 
     @Query(value = "select sum(r.quantity) from Record r "
             + "where r.user = :user " +
             "and r.recordTime = :time")
-    Integer findByDailyDate(
+    Integer findDailyRecords(
             @Param("user") User user,
             @Param("time") LocalDate targetTime
     );
 
-    @Query(value = "select r from Record r " +
-            "where r.user = :user " +
-            "and r.recordTime between :startDay " +
-            "and :endDay order by r.id")
-    List<Record> findByWeeklyDate(
+    @Query(value = "select r.recordTime, sum(r.quantity) from Record r " +
+            "where r.user = :user and r.recordTime " +
+            "between :start and :end " +
+            "group by r.recordTime " +
+            "order by r.recordTime")
+    List<Object[]> findPastRecords(
             @Param("user") User user,
-            @Param("startDay") LocalDate startDay,
-            @Param("endDay") LocalDate endDay
-    );
-
-    @Query(value = "select r from Record r " +
-            "where r.user = :user " +
-            "and r.recordTime between :past " +
-            "and :cur order by r.id")
-    List<Record> findByMonthlyDate(
-            @Param("user") User user,
-            @Param("past") LocalDate past,
-            @Param("cur") LocalDate cur
+            @Param("start") LocalDate start,
+            @Param("end") LocalDate end
     );
 
 }
