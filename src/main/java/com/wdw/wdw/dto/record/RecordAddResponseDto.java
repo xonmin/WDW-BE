@@ -10,15 +10,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RecordAddResponseDto {
 
-    private Long id;
-
     private String username;
 
     private int quantity;
 
     @Builder
-    public RecordAddResponseDto(Long id, String username, int quantity) {
-        this.id = id;
+    public RecordAddResponseDto(String username, int quantity) {
         this.username = username;
         this.quantity = quantity;
     }
