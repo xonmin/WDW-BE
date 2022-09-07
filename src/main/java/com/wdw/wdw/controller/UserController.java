@@ -1,6 +1,7 @@
 package com.wdw.wdw.controller;
 
 
+import com.wdw.wdw.dto.user.UserBadgeResponseDto;
 import com.wdw.wdw.dto.user.UserExistResponseDto;
 import com.wdw.wdw.dto.user.UserGetResponseDto;
 import com.wdw.wdw.dto.user.UserJoinRequestDto;
@@ -9,6 +10,7 @@ import com.wdw.wdw.dto.user.UserUpdateRequestDto;
 import com.wdw.wdw.dto.user.UserUpdateResponseDto;
 import com.wdw.wdw.infra.ApiResponse;
 import com.wdw.wdw.infra.jwt.PrincipalDetails;
+import com.wdw.wdw.service.AchievementService;
 import com.wdw.wdw.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private final UserService userService;
+    private final AchievementService achievementService;
 
     @PostMapping("/join")
     public ApiResponse<UserJoinResponseDto> join(@RequestBody UserJoinRequestDto req){
@@ -49,5 +52,10 @@ public class UserController {
     @GetMapping("/user")
     public ApiResponse<UserGetResponseDto> user(@AuthenticationPrincipal PrincipalDetails details) {
         return ApiResponse.success(HttpStatus.OK, UserGetResponseDto.from(details.getUser()));
+    }
+
+    @GetMapping("/user/badge")
+    public ApiResponse<UserBadgeResponseDto> badge(@AuthenticationPrincipal PrincipalDetails details) {
+        return ApiResponse.success(HttpStatus.OK, achievementService.getBadgeList(details.getUser()));
     }
 }
