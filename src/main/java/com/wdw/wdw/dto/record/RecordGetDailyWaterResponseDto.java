@@ -8,8 +8,8 @@ import java.time.LocalDate;
 @Getter
 public class RecordGetDailyWaterResponseDto {
 
-    LocalDate recordDate;
-    Integer totalSum;
+    private LocalDate recordDate;
+    private Integer totalSum;
 
     @Builder
     public RecordGetDailyWaterResponseDto(LocalDate recordDate, Integer totalSum) {

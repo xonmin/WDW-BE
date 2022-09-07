@@ -10,7 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 public class RecordGetWaterListResponseDto {
 
-    List<CustomizedCalendarDto> records;
+    private List<CustomizedCalendarDto> records;
 
     @Builder
     public RecordGetWaterListResponseDto(List<CustomizedCalendarDto> records) {

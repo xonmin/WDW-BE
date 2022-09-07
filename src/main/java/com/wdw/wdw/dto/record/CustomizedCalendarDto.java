@@ -8,8 +8,8 @@ import java.time.LocalDate;
 @Getter
 public class CustomizedCalendarDto {
 
-    LocalDate recordTime;
-    Long totalSum;
+    private LocalDate recordTime;
+    private Long totalSum;
 
     @Builder
     public CustomizedCalendarDto(LocalDate recordTime, Long totalSum) {
