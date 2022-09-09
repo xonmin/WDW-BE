@@ -4,6 +4,7 @@ import com.wdw.wdw.domain.Achievement;
 import com.wdw.wdw.domain.Badge;
 import com.wdw.wdw.domain.BadgeType;
 import com.wdw.wdw.domain.User;
+import com.wdw.wdw.dto.user.UserBadgeResponseDto;
 import com.wdw.wdw.exception.EntityNotFoundException;
 import com.wdw.wdw.repository.AchievementRepository;
 import com.wdw.wdw.repository.BadgeRepository;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -84,5 +86,13 @@ public class AchievementService {
         }
 
         return waterAchievement.getId();
+    }
+
+    public UserBadgeResponseDto getBadgeList(User user) {
+        List<Badge> badgeList = achievementRepository.findAchievementsByUser(user)
+                .stream()
+                .map(Achievement::getBadge)
+                .collect(Collectors.toList());
+        return UserBadgeResponseDto.from(badgeList);
     }
 }
