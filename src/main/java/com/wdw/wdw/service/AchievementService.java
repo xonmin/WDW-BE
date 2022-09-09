@@ -30,26 +30,29 @@ public class AchievementService {
     public BadgeType checkWaterIntake(User user) {
         Integer curIntake = user.getWaterIntake();
 
-        if (curIntake >= 10000 && curIntake < 50000) {
-            return BadgeType.SUM_BRONZE;
-        } else if (curIntake >= 50000 && curIntake < 100000) {
-            return BadgeType.SUM_SILVER;
-        } else if (curIntake >= 100000) {
+        if (curIntake >= BadgeType.SUM_GOLD.getIntakeOfSum()) {
             return BadgeType.SUM_GOLD;
+        } else if (curIntake >= BadgeType.SUM_SILVER.getIntakeOfSum()) {
+            return BadgeType.SUM_SILVER;
+        } else if (curIntake >= BadgeType.SUM_BRONZE.getIntakeOfSum()) {
+            return BadgeType.SUM_BRONZE;
+        } else {
+            return BadgeType.SUM_BASIC;
         }
-        return BadgeType.SUM_BASIC;
     }
 
     public BadgeType checkConsecutiveDays(User user) {
         Integer curConDays = user.getConsecutiveDays();
-        if (curConDays >= 7) {
-            return BadgeType.CON_BRONZE;
-        } else if (curConDays > 30 && curConDays < 180) {
-            return BadgeType.CON_SILVER;
-        } else if (curConDays >= 180) {
+
+        if (curConDays >= BadgeType.CON_GOLD.getConsecutiveDay()) {
             return BadgeType.CON_GOLD;
+        } else if (curConDays >= BadgeType.CON_SILVER.getConsecutiveDay()) {
+            return BadgeType.CON_SILVER;
+        } else if (curConDays >= BadgeType.CON_BRONZE.getConsecutiveDay()) {
+            return BadgeType.CON_BRONZE;
+        } else {
+            return BadgeType.CON_BASIC;
         }
-        return BadgeType.CON_BASIC;
     }
 
     public boolean checkIfInList(User user, BadgeType badgeType) {
@@ -69,7 +72,7 @@ public class AchievementService {
         Badge dayBadge = badgeRepository.findByBadgeType(dayType)
                 .orElseThrow(EntityNotFoundException::new);
 
-        //achievement 등록
+        // achievement 등록
         Achievement waterAchievement = Achievement.createAchievement(waterBadge);
         Achievement dayAchievement = Achievement.createAchievement(dayBadge);
 
