@@ -13,8 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -86,9 +86,10 @@ public class AchievementService {
     }
 
     public UserBadgeResponseDto getBadgeList(User user) {
-        List<Achievement> achievements = achievementRepository.findAchievementsByUser(user);
-        List<Badge> badgeList = new ArrayList<>();
-        achievements.forEach(achievement -> badgeList.add(achievement.getBadge()));
+        List<Badge> badgeList = achievementRepository.findAchievementsByUser(user)
+                .stream()
+                .map(Achievement::getBadge)
+                .collect(Collectors.toList());
         return UserBadgeResponseDto.from(badgeList);
     }
 }
