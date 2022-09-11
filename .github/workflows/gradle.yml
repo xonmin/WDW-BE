@@ -11,6 +11,9 @@ on:
       - taehwan/*
       - sungbum/* 
 
+env:
+  jasypt.encryptor.password: ${{ secrets.JASYPT_ENCRYPTOR_PASSWORD }}
+
 jobs:
   build:
 
