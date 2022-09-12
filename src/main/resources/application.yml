@@ -21,6 +21,7 @@ spring:
 jasypt:
   encryptor:
     bean: jasyptStringEncryptor
+    password: ${JASYPT_ENCRYPTOR_PASSWORD}
 
 logging.level:
   org.hibernate.SQL: debug
