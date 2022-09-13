@@ -18,8 +18,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
-    private UserRepository userRepository;
-    private UserInfoFactoryImpl userInfoFactory;
+    private final UserRepository userRepository;
+    private final UserInfoFactoryImpl userInfoFactory;
+
+    private static final String ROLE_USER = "ROLE_USER";
+
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -29,16 +32,15 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
         try {
             oAuth2UserInfo = userInfoFactory.makeUserInfo(userRequest, oAuth2User.getAttributes());
         } catch (InvalidProviderTypeException e) {
-            String message = e.getMessage();
-            System.out.println(message);
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
 
         String username = oAuth2UserInfo.getProvider() + "_" + oAuth2UserInfo.getProviderId();
-
         User user = userRepository.findByUsername(username)
                 .orElse(createUser(oAuth2UserInfo));
+        userRepository.save(user);
         return new PrincipalDetails(user, oAuth2User.getAttributes());
+
     }
 
     private User createUser(OAuth2UserInfo oAuth2UserInfo) {
@@ -47,15 +49,15 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
         String provider = oAuth2UserInfo.getProvider();
         String providerId = oAuth2UserInfo.getProviderId();
         String username = provider + "_" + providerId;
-        String roles = "ROLE_USER";
 
         User user = User.builder()
                 .username(username)
-                .roles(roles)
+                .roles(ROLE_USER)
                 .provider(provider)
                 .providerId(providerId)
+                .name(oAuth2UserInfo.getName())
                 .build();
-        userRepository.save(user);
+        ;
         return user;
     }
 
