@@ -41,7 +41,7 @@ public class RecordService {
     }
 
     public RecordGetDailyWaterResponseDto findDailyRecord(User user, LocalDate date) {
-        Integer dailyIntake = recordRepository.findDailyRecords(user, date);
+        Integer dailyIntake = recordRepository.findQuantity(user, date);
         if (dailyIntake == null) dailyIntake = 0;
         return RecordGetDailyWaterResponseDto.from(date, dailyIntake);
     }
@@ -51,9 +51,9 @@ public class RecordService {
         LocalDate startDay = CalendarUtil.getStartDayOfWeek(date);
         LocalDate endDay = CalendarUtil.getEndDayOfWeek(date);
 
-        List<Object[]> dayRecord = recordRepository.findPastRecords(user, startDay, endDay);
+        List<IntakeRecord> intakeRecord = recordRepository.findPastRecords(user, startDay, endDay);
 
-        List<CustomizedCalendarDto> weeklyRecords = convertIntoDtoList(dayRecord);
+        List<CustomizedCalendarDto> weeklyRecords = convertIntoDtoList(intakeRecord);
 
         return RecordGetWaterListResponseDto.from(weeklyRecords);
     }
@@ -62,23 +62,23 @@ public class RecordService {
         int curMonth = date.getMonthValue();
         LocalDate startDay = LocalDate.of(date.getYear(), curMonth, 1);
 
-        List<Object[]> monthRecord = recordRepository.findPastRecords(user, startDay, LocalDate.now());
+        List<IntakeRecord> intakeRecord = recordRepository.findPastRecords(user, startDay, LocalDate.now());
 
-        List<CustomizedCalendarDto> monthlyRecords = convertIntoDtoList(monthRecord);
+        List<CustomizedCalendarDto> monthlyRecords = convertIntoDtoList(intakeRecord);
 
         return RecordGetWaterListResponseDto.from(monthlyRecords);
     }
 
-    public List<CustomizedCalendarDto> convertIntoDtoList(List<Object[]> targetList) {
+    public List<CustomizedCalendarDto> convertIntoDtoList(List<IntakeRecord> targetList) {
         List<CustomizedCalendarDto> convertedList = new ArrayList<>();
 
-        for (Object[] target : targetList) {
-            LocalDate recordDate = (LocalDate) target[0];
-            Long dailyIntake = (Long) target[1];
+        for (IntakeRecord model : targetList) {
+            LocalDate recordTime = model.getRecordTime();
+            Long totalSum = model.getTotalSum();
 
             CustomizedCalendarDto customizedDto = CustomizedCalendarDto.builder()
-                    .recordTime(recordDate)
-                    .totalSum(dailyIntake)
+                    .recordTime(recordTime)
+                    .totalSum(totalSum)
                     .build();
 
             convertedList.add(customizedDto);
