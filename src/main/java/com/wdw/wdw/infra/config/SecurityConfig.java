@@ -3,6 +3,8 @@ package com.wdw.wdw.infra.config;
 import com.wdw.wdw.infra.jwt.JwtAuthenticationFilter;
 import com.wdw.wdw.infra.jwt.JwtAuthorizationFilter;
 import com.wdw.wdw.infra.jwt.JwtTokenProvider;
+import com.wdw.wdw.infra.oauth.PrincipalOAuth2UserService;
+import com.wdw.wdw.infra.oauth.handler.OAuth2AuthenticationSuccessHandler;
 import com.wdw.wdw.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -23,6 +25,10 @@ public class SecurityConfig {
     private final AppProperties appProperties;
     private final JwtTokenProvider tokenProvider;
 
+    private final PrincipalOAuth2UserService principalOAuth2UserService;
+
+    private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
+
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         return http
@@ -30,6 +36,13 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .formLogin().disable()
+                .oauth2Login()
+                .userInfoEndpoint()
+                .userService(principalOAuth2UserService)
+                .and()
+                .defaultSuccessUrl("/")
+                .successHandler(oAuth2AuthenticationSuccessHandler)
+                .and()
                 .httpBasic().disable()
                 .apply(new MyCustomDsl())
                 .and()

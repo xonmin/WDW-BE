@@ -18,6 +18,17 @@ spring:
         #        show_sql: true
         format_sql: true
 
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ENC(5DNOrIWNCVK5ulAsMwGbzTeZUhOL/yNu9yPOmHVZPv6E3VwDsuIg/JF7JxQUSs7LIMyRjvBb4jBJ6ntTMsplj90Npa7V1R/ptqW909g3auRk2tRqiYXlBA==)
+            client-secret: ENC(vsa0d4IfBmEoIf7Ig5PfABfcnl+fXCfXtTb6Zym2IYQm9VPm5nfUTMLESBWugwFx)
+            scope:
+              - email
+              - profile
+
 logging.level:
   org.hibernate.SQL: debug
 #  org.hibernate.type: trace
