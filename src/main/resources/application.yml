@@ -6,9 +6,9 @@ spring:
       fail-on-empty-beans: false
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://wdw-server.cwas4ywuxhjs.ap-northeast-2.rds.amazonaws.com/wdw
-    username: master
-    password: wdw1234!
+    url: ENC(XY8yZTMmye7QjU6j0pzrrbUGJQnx8FfxRTISOKG36a4xbq9JiaCGU5qWLSQeOpHO89xn8+eXaad5/C2LhHpqjPvjKcfjbh05pmW0+IVxxHYRJgMXCjflJQ==)
+    username: ENC(wHVzLrcm3E13azGi9I/Kag==)
+    password: ENC(s3e3oTYr2hNWoTNEpM/m32SlSNW+7jCi)
 
   jpa:
     hibernate:
@@ -28,6 +28,11 @@ spring:
             scope:
               - email
               - profile
+
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor
+    password: ${JASYPT_ENCRYPTOR_PASSWORD}
 
 logging.level:
   org.hibernate.SQL: debug
