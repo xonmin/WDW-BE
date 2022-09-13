@@ -23,12 +23,14 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    private static final String ROLE_USER = "ROLE_USER";
+
     public UserJoinResponseDto signUp(UserJoinRequestDto req) {
         User user = User.builder()
                 .username(req.getUsername())
                 .password(passwordEncoder.encode(req.getPassword()))
                 .name(req.getName())
-                .roles("ROLE_USER")
+                .roles(ROLE_USER)
                 .consecutiveDays(0)
                 .waterIntake(0)
                 .build();

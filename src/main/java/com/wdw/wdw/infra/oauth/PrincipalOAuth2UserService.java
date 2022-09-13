@@ -21,6 +21,9 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
     private final UserRepository userRepository;
     private final UserInfoFactoryImpl userInfoFactory;
 
+    private static final String ROLE_USER = "ROLE_USER";
+
+
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(userRequest);
@@ -49,11 +52,12 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
 
         User user = User.builder()
                 .username(username)
-                .roles("ROLE_USER")
+                .roles(ROLE_USER)
                 .provider(provider)
                 .providerId(providerId)
                 .name(oAuth2UserInfo.getName())
-                .build();;
+                .build();
+        ;
         return user;
     }
 
