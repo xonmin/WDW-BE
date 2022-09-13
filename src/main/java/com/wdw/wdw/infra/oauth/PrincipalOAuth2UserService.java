@@ -46,13 +46,13 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
         String provider = oAuth2UserInfo.getProvider();
         String providerId = oAuth2UserInfo.getProviderId();
         String username = provider + "_" + providerId;
-        String roles = "ROLE_USER";
 
         User user = User.builder()
                 .username(username)
-                .roles(roles)
+                .roles("ROLE_USER")
                 .provider(provider)
                 .providerId(providerId)
+                .name(oAuth2UserInfo.getName())
                 .build();;
         return user;
     }
